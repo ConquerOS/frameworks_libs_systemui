@@ -163,7 +163,11 @@ public class IconProvider {
         }
 
         ThemeData td = getThemedIconMap().get(packageName);
-        return td != null ? td.wrapDrawable(icon, iconType) : icon;
+        if (td == null && mThemedIconMap != DISABLED_MAP) {
+            td = new ThemeData(mContext.getResources(), icon);
+            return td.wrapDrawable(icon, iconType);
+        }
+        return icon;
     }
 
     private Drawable loadActivityInfoIcon(ActivityInfo ai, int density) {
